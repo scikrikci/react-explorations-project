@@ -1,15 +1,22 @@
 import { useLocation } from "react-router-dom";
 import { useRipple } from "../utils/ripple";
-import { style } from "framer-motion/client";
 
-export const useTabButton = (to, layoutId, radius = "rounded-md") => {
+export const useTabButton = (
+  to,
+  layoutId,
+  radius = "rounded-md",
+  rippleDisabled,
+  rippleColor,
+  rippleDuration,
+  rippleOpacity
+) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
   const { rippleProps, ripples } = useRipple({
-    duration: 600,
-    opacity: 0.35,
-    color: "black",
+    duration: rippleDuration,
+    opacity: rippleOpacity,
+    rippleColor: rippleColor,
   });
 
   const getClassName = () => {
@@ -30,14 +37,22 @@ export const useTabButton = (to, layoutId, radius = "rounded-md") => {
   const motionProps = isActive
     ? {
         layoutId,
-        className: `absolute inset-0 bg-bgButton ${radius}`,
+        className: `absolute inset-0 bg-bgButton rounded-[inherit]`,
         transition: { type: "spring", duration: 0.5 },
       }
     : {};
 
-  const modifiedRippleProps = {
-    onClick: rippleProps.onClick,
-  };
+  // const modifiedRippleProps = {
+  //   onClick: rippleProps.onClick,
+  // };
+
+  const modifiedRippleProps = rippleDisabled
+    ? {}
+    : {
+        onClick: (e) => {
+          rippleProps.onClick(e);
+        },
+      };
 
   return {
     isActive,

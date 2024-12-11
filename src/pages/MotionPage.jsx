@@ -23,7 +23,7 @@ const MotionPage = () => {
           height: isOpen ? 200 : 100,
         }}
         transition={{ type: "spring", stiffness: 150, damping: 20 }}
-        className={`bg-white flex justify-center items-center`}
+        className={`bg-orange-400 flex justify-center items-center`}
         onClick={() => setIsOpen(!isOpen)}
       ></motion.div>
     </div>

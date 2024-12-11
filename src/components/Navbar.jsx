@@ -10,6 +10,7 @@ import TabButton from "./TabButton";
 
 const Navbar = () => {
   // States
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const isSmallScreen = useMediaQuery({ query: "(max-width: 1024px)" });
@@ -25,6 +26,10 @@ const Navbar = () => {
   const handleToggleClick = (event) => {
     rippleProps.onClick(event);
     toggleMenu();
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
   };
 
   // UseEffects
@@ -48,6 +53,13 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Condition
+  if (isDarkMode) {
+    document.documentElement.dataset.theme = "dark";
+  } else {
+    document.documentElement.dataset.theme = "light";
+  }
 
   return (
     <>
@@ -81,14 +93,24 @@ const Navbar = () => {
             </Link>
           </motion.div>
 
+          <button onClick={toggleDarkMode}>mode</button>
+
           <div className="hidden lg:flex justify-center items-center gap-8">
             <TabButton to={"/"} layoutId="navbar-active-tab">
               Home
             </TabButton>
-            <TabButton to={"/motion"} layoutId="navbar-active-tab">
+            <TabButton
+              to={"/motion"}
+              layoutId="navbar-active-tab"
+              rippleColor="blue"
+            >
               Motion
             </TabButton>
-            <TabButton to={"/ripple"} layoutId="navbar-active-tab">
+            <TabButton
+              to={"/ripple"}
+              layoutId="navbar-active-tab"
+              rippleColor="green"
+            >
               Ripple
             </TabButton>
           </div>

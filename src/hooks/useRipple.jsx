@@ -3,7 +3,7 @@ import { useState, useLayoutEffect } from "react";
 export const useRipple = ({
   duration = 600,
   opacity = 0.35,
-  color = "rgba(255, 255, 255, 0.35)",
+  rippleColor = "black",
 } = {}) => {
   const [ripples, setRipples] = useState([]);
 
@@ -42,10 +42,7 @@ export const useRipple = ({
     setRipples((prevRipples) => [...prevRipples, ripple]);
   };
 
-  const rippleStyles = {
-    position: "relative",
-    overflow: "hidden",
-  };
+  const rippleStyle = { position: "relative", overflow: "hidden" };
 
   const getRippleStyle = (ripple) => ({
     position: "absolute",
@@ -56,15 +53,15 @@ export const useRipple = ({
     borderRadius: "50%",
     transform: "scale(0)",
     pointerEvents: "none",
-    backgroundColor: color,
+    backgroundColor: rippleColor,
     opacity: opacity,
     animation: `ripple ${duration}ms linear`,
   });
 
   return {
     rippleProps: {
-      style: rippleStyles,
       onClick: createRipple,
+      style: rippleStyle,
     },
     ripples: ripples.map((ripple) => ({
       key: ripple.id,

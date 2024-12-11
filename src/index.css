@@ -26,8 +26,10 @@
   text-rendering: optimizeLegibility;
 }
 
-body {
-  width: 100dvw;
+*,
+:after,
+:before {
+  box-sizing: border-box;
 }
 
 @layer base {

@@ -6,38 +6,67 @@ import { GiAngryEyes } from "react-icons/gi";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { useMediaQuery } from "react-responsive";
+import TabButton from "./TabButton";
 
 const Navbar = () => {
+  // States
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const isSmallScreen = useMediaQuery({ query: "(max-width: 1024px)" });
   const { rippleProps, ripples } = useRipple({
-    color: "bgButton",
+    color: "white",
   });
 
+  // Functions
+  const toggleMenu = () => {
+    setIsOpenMenu(!isOpenMenu);
+  };
+
+  const handleToggleClick = (event) => {
+    rippleProps.onClick(event);
+    toggleMenu();
+  };
+
+  // UseEffects
   useEffect(() => {
     if (!isSmallScreen) {
       setIsOpenMenu(false);
     }
   }, [isSmallScreen]);
 
-  const toggleMenu = () => {
-    setIsOpenMenu(!isOpenMenu);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
       <motion.nav
-        initial={{ x: "-150%" }}
-        animate={{ x: 0 }}
+        initial={{ y: "-200%" }}
+        animate={{ y: 0 }}
         transition={{
           type: "spring",
-          stiffness: 60,
+          stiffness: 120,
           damping: 20,
-          duration: 2,
+          duration: 4,
         }}
         className="fixed top-6 z-50 w-full h-14"
       >
-        <div className="box-border mx-6 md:mx-12 px-4 py-2 h-full flex justify-between bg-bgSecondary rounded-xl">
+        <div
+          className={`box-border mx-6 md:mx-12 px-4 py-2 h-full flex justify-between  rounded-xl transition-all duration-300 ${
+            isOpenMenu ? "bg-bgPrimary" : isScrolled ? "bg-bgSecondary" : ""
+          }`}
+        >
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -48,21 +77,29 @@ const Navbar = () => {
               onClick={() => setIsOpenMenu(false)}
               className="h-full flex items-center"
             >
-              <GiAngryEyes className="text-3xl text-white size-16 hover:text-red-400 transition-all duration-200 " />
+              <GiAngryEyes className="text-3xl text-textPrimary size-16 hover:text-red-400 transition-all duration-200 " />
             </Link>
           </motion.div>
 
           <div className="hidden lg:flex justify-center items-center gap-8">
-            <Link to={"/"}>Home</Link>
-            <Link to={"/motion"}>Motion</Link>
-            <Link to={"/ripple"}>Ripple</Link>
+            <TabButton to={"/"} layoutId="navbar-active-tab">
+              Home
+            </TabButton>
+            <TabButton to={"/motion"} layoutId="navbar-active-tab">
+              Motion
+            </TabButton>
+            <TabButton to={"/ripple"} layoutId="navbar-active-tab">
+              Ripple
+            </TabButton>
           </div>
 
           {/* Menu */}
           <button
-            onClick={toggleMenu}
-            className="lg:hidden relative w-10 h-10 flex items-center justify-center"
+            {...rippleProps}
+            onClick={handleToggleClick}
+            className="lg:hidden rounded-full relative w-10 h-10 flex items-center justify-center cursor-pointer select-none text-white"
           >
+            <RippleEffect ripples={ripples} />
             <motion.div
               initial={false}
               animate={{ rotateY: isOpenMenu ? 180 : 0 }}
@@ -114,7 +151,7 @@ const Navbar = () => {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ type: "spring", stiffness: 150, damping: 20 }}
-            className="lg:hidden fixed top-0 left-0 w-full h-full bg-black text-white flex flex-col items-center justify-center z-[49]"
+            className="lg:hidden fixed top-0 left-0 w-full h-full bg-bgSecondary text-white flex flex-col items-center justify-center z-[49]"
           >
             <ul className="text-center space-y-4 text-xl">
               <li>

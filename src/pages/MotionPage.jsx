@@ -10,7 +10,7 @@ const MotionPage = () => {
         className="w-20 h-20 bg-blue-500 rounded"
         animate={{ x: [100, 0], opacity: 1 }}
         initial={{ x: 0, opacity: 0 }} // Başlangıç pozisyonu
-        transition={{ duration: 1 }} // Animasyonun süresi
+        transition={{ duration: 2 }} // Animasyonun süresi
         whileHover={{ scale: 1.2 }} // Üzerine gelince büyüt
         whileTap={{ scale: 0.8 }} // Tıklayınca küçült
       />

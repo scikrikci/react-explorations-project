@@ -33,7 +33,7 @@ export default {
         marlinRegular: ['MarlinRegular', 'sans-serif'],
       },
       animation: {
-        ripple: "rippleEffect 2s ease-out",
+        ripple: "rippleEffect 2s ease-out"
       },
       keyframes: {
         rippleEffect: {

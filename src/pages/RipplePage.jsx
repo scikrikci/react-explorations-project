@@ -13,7 +13,7 @@ const RipplePage = () => {
     <div className="flex flex-col justify-center w-full h-dvh items-center gap-4">
       <h1>Ripple Effect Demo</h1>
 
-      <RippleButton className=" px-6 py-2 rounded-lg">
+      <RippleButton className="bg-purple-600 text-white px-6 py-2 rounded-lg">
         Ripple Button Component
       </RippleButton>
 
